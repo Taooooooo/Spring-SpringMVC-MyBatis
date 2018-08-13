@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 需求是通过id查找用户信息 -->
+ <mapper namespace="com.neuedu.mapper.UserMapper">
+ 	<select id="findById" parameterType="int" resultType="User">
+ 		SELECT id,username,PASSWORD,sex
+		FROM user
+		WHERE id=#{id}
+ 	</select>
+ 	
+ 	<select id="findByName" parameterType="string" resultType="com.neuedu.pojo.User">
+ 	SELECT id,PASSWORD,sex
+	FROM user
+	WHERE username LIKE '%${value}%'
+ 	</select>
+ 	
+ 	<delete id="deleteUser" parameterType="int">
+ 	DELETE FROM USER
+ 	WHERE id=#{id}
+ 	</delete>
+ 	
+ 	
+ 	<insert id="insertUser" parameterType="string">
+ 	INSERT INTO USER(id,username,PASSWORD,sex)
+ 	VALUES(
+		<if test="id!=null and id!=''">
+		#{id},
+		</if>
+		<if test="username!=null and username!=''">
+		#{username},
+		</if>
+		<if test="password!=null and password!=''">
+		#{password},
+		</if>
+		<if test="sex!=null and sex!=''">
+		#{sex}
+		</if>
+	)
+ 	</insert>
+ 	
+ 	<update id="updateUser" parameterType="string">
+	UPDATE user
+	<set>
+		<if test="username!=null and username!=''">
+		username=#{username},
+		</if>
+		<if test="password!=null and password!=''">
+		PASSWORD=#{password},
+		</if>
+		<if test="sex!=null and sex!=''">
+		sex=#{sex}
+		</if>
+	</set>
+	WHERE id=#{id}
+ 	</update>
+ 	
+ </mapper>
